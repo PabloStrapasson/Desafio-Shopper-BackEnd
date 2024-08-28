@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-WORKDIR /app
+WORKDIR /api
 COPY . .
 
 RUN npm install --quiet --no-optional --no-fund --loglevel=error

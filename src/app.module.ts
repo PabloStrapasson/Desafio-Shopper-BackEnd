@@ -1,11 +1,21 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { MeasureModule } from './modules/measure/measure.module';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PostgresConfigService } from './config/postgres.config.service';
 
 @Module({
-  imports: [MeasureModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    MeasureModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      useClass: PostgresConfigService,
+      inject: [PostgresConfigService],
+    }),
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
