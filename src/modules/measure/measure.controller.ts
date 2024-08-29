@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  //Patch,
   Param,
   Delete,
   Query,
@@ -11,29 +10,37 @@ import {
 } from '@nestjs/common';
 import { MeasureService } from './measure.service';
 import { CreateMeasureDto } from './dto/create-measure.dto';
-//import { UpdateMeasureDto } from './dto/update-measure.dto';
-import { CreateDatePipe } from '../../resource/pipes/createDate.pipe';
 import { EnumMeasureTypes } from '../../enum/measureTypesEnum';
+import { UploadMeasureDto } from './dto/upload-measure.dto';
+import { CreateDatePipe } from 'src/resource/pipes/createDate.pipe';
 
 @Controller()
 export class MeasureController {
   constructor(private readonly measureService: MeasureService) {}
 
-  @Post('upload')
-  async create(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Body() { measure_datetime, ...createMeasureDto }: CreateMeasureDto,
-    @Body('measure_datetime', CreateDatePipe) measureDate: Date,
-  ) {
-    const newMeasure = await this.measureService.createMeasure({
-      ...createMeasureDto,
-      measure_datetime: measureDate,
-    });
+  @Post('create')
+  async create(@Body() createMeasureDto: CreateMeasureDto) {
+    const newMeasure =
+      await this.measureService.createMeasure(createMeasureDto);
 
     return {
       data: newMeasure,
       message: 'Medição cadastrada com sucesso',
     };
+  }
+
+  @Post('upload')
+  async uploadMeasure(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Body() { measure_datetime, ...uploadMeasureDto }: UploadMeasureDto,
+    @Body('measure_datetime', CreateDatePipe) measureDate: Date,
+  ) {
+    const newMeasure = await this.measureService.uploadMeasure({
+      ...uploadMeasureDto,
+      measure_datetime: measureDate,
+    });
+
+    return newMeasure;
   }
 
   @Get('list')
@@ -46,13 +53,13 @@ export class MeasureController {
     };
   }
 
-  @Get(':custumer_code/list')
-  async findAllByCustumerCode(
+  @Get(':custumer_code/list') // CONCLUÍDO - verificar melhorias
+  async getMeasuresByCustumerCode(
     @Param('custumer_code') custumer_code: string,
     @Query('measure_type') measure_type: string,
   ) {
     if (measure_type != null) {
-      measure_type = measure_type.toLowerCase();
+      measure_type = measure_type.toUpperCase();
 
       if (EnumMeasureTypes[measure_type] === undefined) {
         throw new BadRequestException({
@@ -62,7 +69,7 @@ export class MeasureController {
       }
 
       const allMeasures =
-        await this.measureService.findMeasuresByCustumerIdType(
+        await this.measureService.findMeasuresByCustumerCodeAndType(
           custumer_code,
           measure_type,
         );
@@ -74,25 +81,13 @@ export class MeasureController {
     }
 
     const allMeasures =
-      await this.measureService.findMeasuresByCustumerId(custumer_code);
+      await this.measureService.findMeasuresByCustumerCode(custumer_code);
 
     return {
       custumer_code: custumer_code,
       measures: allMeasures,
     };
   }
-
-  /*
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.measureService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMeasureDto: UpdateMeasureDto) {
-    return this.measureService.update(+id, updateMeasureDto);
-  }
-  */
 
   @Delete('/delete/:id')
   remove(@Param('id') id: string) {
