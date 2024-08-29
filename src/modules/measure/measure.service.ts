@@ -4,7 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateMeasureDto } from './dto/create-measure.dto';
-//import { UpdateMeasureDto } from './dto/update-measure.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MeasureEntity } from './measure.entity';
 import { Repository } from 'typeorm';

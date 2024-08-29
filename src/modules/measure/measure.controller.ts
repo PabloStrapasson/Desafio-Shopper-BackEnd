@@ -53,7 +53,7 @@ export class MeasureController {
     };
   }
 
-  @Get(':custumer_code/list') // CONCLUÍDO - verificar melhorias
+  @Get(':custumer_code/list')
   async getMeasuresByCustumerCode(
     @Param('custumer_code') custumer_code: string,
     @Query('measure_type') measure_type: string,
