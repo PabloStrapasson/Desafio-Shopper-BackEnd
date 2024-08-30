@@ -22,6 +22,9 @@ export class MeasureEntity {
   @Column({ name: 'measure_type', nullable: false })
   measure_type: EnumMeasureTypes;
 
+  @Column('decimal', { name: 'measure_value', scale: 3, nullable: false })
+  measure_value: number;
+
   @Column({ name: 'has_confirmed', nullable: false })
   has_confirmed: boolean;
 

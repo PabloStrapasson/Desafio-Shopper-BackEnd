@@ -7,27 +7,17 @@ import {
   Delete,
   Query,
   BadRequestException,
+  Patch,
 } from '@nestjs/common';
 import { MeasureService } from './measure.service';
-import { CreateMeasureDto } from './dto/create-measure.dto';
 import { EnumMeasureTypes } from '../../enum/measureTypesEnum';
 import { UploadMeasureDto } from './dto/upload-measure.dto';
+import { ConfirmMeasureDto } from './dto/confirm-measure.dto';
 import { CreateDatePipe } from 'src/resource/pipes/createDate.pipe';
 
 @Controller()
 export class MeasureController {
   constructor(private readonly measureService: MeasureService) {}
-
-  @Post('create')
-  async create(@Body() createMeasureDto: CreateMeasureDto) {
-    const newMeasure =
-      await this.measureService.createMeasure(createMeasureDto);
-
-    return {
-      data: newMeasure,
-      message: 'Medição cadastrada com sucesso',
-    };
-  }
 
   @Post('upload')
   async uploadMeasure(
@@ -43,14 +33,11 @@ export class MeasureController {
     return newMeasure;
   }
 
-  @Get('list')
-  async findAll() {
-    const allMeasures = await this.measureService.findAllMeasures();
+  @Patch('confirm')
+  async confirmMeasure(@Body() confirmMeasureDto: ConfirmMeasureDto) {
+    await this.measureService.confirmMeasure(confirmMeasureDto);
 
-    return {
-      data: allMeasures,
-      message: 'Medições encontrados com sucesso!',
-    };
+    return { success: true };
   }
 
   @Get(':custumer_code/list')
@@ -86,6 +73,16 @@ export class MeasureController {
     return {
       custumer_code: custumer_code,
       measures: allMeasures,
+    };
+  }
+
+  @Get('list')
+  async findAll() {
+    const allMeasures = await this.measureService.findAllMeasures();
+
+    return {
+      data: allMeasures,
+      message: 'Medições encontrados com sucesso!',
     };
   }
 
