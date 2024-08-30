@@ -50,8 +50,7 @@ export class MeasureController {
 
       if (EnumMeasureTypes[measure_type] === undefined) {
         throw new BadRequestException({
-          error_code: 'INVALID_DATA',
-          error_description: 'Tipo de medição não permitida',
+          message: 'Tipo de medição não permitida',
         });
       }
 

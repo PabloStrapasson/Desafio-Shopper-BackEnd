@@ -95,7 +95,7 @@ export class MeasureService {
     return Number(geminiMeasureResponse);
   }
 
-  getBase64ImageType(firstCaracter: string) {
+  private getBase64ImageType(firstCaracter: string) {
     /* '/' = jpg, 'i' = png, 'R' = gif, 'U' = webp */
     if (firstCaracter === '/') {
       return 'image/jpg';
@@ -105,7 +105,7 @@ export class MeasureService {
     }
   }
 
-  generateImageURL(image: string) {
+  private generateImageURL(image: string) {
     const imageMimeType = this.getBase64ImageType(image[0]);
     const baseUrl = `data:${imageMimeType};base64,`;
     const imageURL = baseUrl + image;
@@ -182,7 +182,7 @@ export class MeasureService {
     return measuresList;
   }
 
-  createListMeasuresDto(measures: MeasureEntity[]) {
+  private createListMeasuresDto(measures: MeasureEntity[]) {
     const measuresList = measures.map((measure) => {
       return new ListMeasureDto(
         measure.measure_uuid,

@@ -3,6 +3,8 @@ import { MeasureModule } from './modules/measure/measure.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigService } from './config/postgres.config.service';
+import { APP_FILTER } from '@nestjs/core';
+import { BadRequestFilter } from './resource/filters/badRequest.filter';
 
 @Module({
   imports: [
@@ -16,6 +18,6 @@ import { PostgresConfigService } from './config/postgres.config.service';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [{ provide: APP_FILTER, useClass: BadRequestFilter }],
 })
 export class AppModule {}
