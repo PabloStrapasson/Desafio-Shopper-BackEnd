@@ -1,23 +1,19 @@
-import { IsBoolean, IsDate, IsEnum, IsNotEmpty, IsUrl } from 'class-validator';
+import { IsBase64, IsDateString, IsEnum, IsNotEmpty } from 'class-validator';
 import { EnumMeasureTypes } from '../../../enum/measureTypesEnum';
 
-export class CreateMeasureDto {
+export class UploadMeasureDto {
+  @IsNotEmpty()
+  @IsBase64()
+  image: string;
+
   @IsNotEmpty()
   custumer_code: string;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   measure_datetime: Date;
 
   @IsNotEmpty()
   @IsEnum(EnumMeasureTypes)
   measure_type: EnumMeasureTypes;
-
-  @IsNotEmpty()
-  @IsBoolean()
-  has_confirmed: boolean;
-
-  @IsNotEmpty()
-  @IsUrl()
-  image_url: string;
 }
