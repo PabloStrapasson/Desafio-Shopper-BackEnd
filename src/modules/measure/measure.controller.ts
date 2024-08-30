@@ -8,12 +8,14 @@ import {
   Query,
   BadRequestException,
   Patch,
+  Res,
 } from '@nestjs/common';
 import { MeasureService } from './measure.service';
 import { EnumMeasureTypes } from '../../enum/measureTypesEnum';
 import { UploadMeasureDto } from './dto/upload-measure.dto';
 import { ConfirmMeasureDto } from './dto/confirm-measure.dto';
 import { CreateDatePipe } from 'src/resource/pipes/createDate.pipe';
+import { Response } from 'express';
 
 @Controller()
 export class MeasureController {
@@ -75,6 +77,15 @@ export class MeasureController {
     };
   }
 
+  @Get('image/:id')
+  getMeasureImage(@Param('id') id: string, @Res() res: Response) {
+    const imageLink = this.measureService.getImageLink(id);
+    const response = `
+      <img src=${imageLink} alt="measure_image"/>
+    `;
+    res.send(response);
+  }
+  // Tirar no final
   @Get('list')
   async findAll() {
     const allMeasures = await this.measureService.findAllMeasures();

@@ -4,13 +4,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'measures' })
 export class MeasureEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   measure_uuid: string;
 
   @Column({ name: 'custumer_code', nullable: false })
