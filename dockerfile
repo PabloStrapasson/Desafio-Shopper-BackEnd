@@ -1,7 +1,7 @@
-FROM node:18-alpine
+FROM node:latest
 
-WORKDIR /api
-COPY . .
+WORKDIR /usr/api
+COPY . /usr/api
 
 RUN npm install --quiet --no-optional --no-fund --loglevel=error
 RUN npm run build
