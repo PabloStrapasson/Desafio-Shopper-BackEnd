@@ -217,19 +217,4 @@ export class MeasureService {
 
     return imageLink.path;
   }
-
-  async remove(id: string) {
-    const result = await this.measureRepository.delete(id);
-
-    if (!result.affected) {
-      throw new NotFoundException('Measure não encontrada!');
-    }
-  }
-
-  async findAllMeasures() {
-    const measures = await this.measureRepository.find();
-    const measuresList = this.createListMeasuresDto(measures);
-
-    return measuresList;
-  }
 }

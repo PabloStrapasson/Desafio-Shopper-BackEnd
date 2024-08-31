@@ -4,7 +4,6 @@ import {
   Post,
   Body,
   Param,
-  Delete,
   Query,
   BadRequestException,
   Patch,
@@ -84,20 +83,5 @@ export class MeasureController {
       <img src=${imageLink} alt="measure_image"/>
     `;
     res.send(response);
-  }
-  // Tirar no final
-  @Get('list')
-  async findAll() {
-    const allMeasures = await this.measureService.findAllMeasures();
-
-    return {
-      data: allMeasures,
-      message: 'Medições encontrados com sucesso!',
-    };
-  }
-
-  @Delete('/delete/:id')
-  remove(@Param('id') id: string) {
-    return this.measureService.remove(id);
   }
 }
