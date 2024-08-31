@@ -1,9 +1,10 @@
 FROM node:latest
 
-WORKDIR /usr/api
-COPY . /usr/api
+WORKDIR /api
+COPY . .
 
 RUN npm install --quiet --no-optional --no-fund --loglevel=error
+
 RUN npm run build
 EXPOSE 3000
 
