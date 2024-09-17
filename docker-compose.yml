@@ -27,11 +27,12 @@ services:
   swagger:
     image: swaggerapi/swagger-ui
     environment:
-      SWAGGER_JSON: openapi.json
+      SWAGGER_JSON: /openapi.json
+      BASE_URL: /swagger
     ports:
-      - "8080:8080"
+      - "3001:8080"
     volumes:
-      - swagger:/openapi.json
+      - ./swagger/openapi.json:/openapi.json
   
 volumes:
     postgres:
