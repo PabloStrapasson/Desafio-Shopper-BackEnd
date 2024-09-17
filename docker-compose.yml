@@ -15,7 +15,7 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
-  
+
   backend:
     build: .
     command: npm run start:prod
@@ -24,5 +24,15 @@ services:
     depends_on:
       - postgres
 
+  swagger:
+    image: swaggerapi/swagger-ui
+    environment:
+      SWAGGER_JSON: openapi.json
+    ports:
+      - "8080:8080"
+    volumes:
+      - swagger:/openapi.json
+  
 volumes:
     postgres:
+    swagger:
