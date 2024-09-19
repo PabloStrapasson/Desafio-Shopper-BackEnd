@@ -14,6 +14,14 @@ export interface IMeasureRepository {
 
   updateMeasure(measure: MeasureEntity): Promise<void>;
 
-  //findAllMeasure(): Promise<MeasureEntity[]>;
-  //deleteMeasure();
+  findAllMeasure(): Promise<MeasureEntity[]>;
+
+  deleteMeasure(measure_uuid: string): Promise<void>;
+
+  // Métodos para recuperar links temporários
+  findTempLinkById(link_uuid: string);
+
+  addTempLink(link_uuid: string, link: any);
+
+  removeTempLink(link_uuid: string);
 }

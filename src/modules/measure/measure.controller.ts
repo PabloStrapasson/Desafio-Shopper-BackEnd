@@ -7,6 +7,7 @@ import {
   Query,
   Patch,
   Inject,
+  Delete,
 } from '@nestjs/common';
 import { UploadMeasureDto } from './dto/upload-measure.dto';
 import { ConfirmMeasureDto } from './dto/confirm-measure.dto';
@@ -14,6 +15,9 @@ import { CreateDatePipe } from 'src/resource/pipes/createDate.pipe';
 import { UploadImageMeasureUseCase } from '../use-cases/upload-image-measure.use-case';
 import { ConfirmMeasureUseCase } from '../use-cases/confirm-measure.use-case';
 import { GetMeasuresByCustumerCodeUseCase } from '../use-cases/get-measures-by-custumer.use-case';
+import { GetAllMeasureUseCase } from '../use-cases/get-all-measures.use-case';
+import { DeleteMeasureUseCase } from '../use-cases/delete-measure.use-case';
+import { GetTemporaryLinkUseCase } from '../use-cases/get-temporary-link.use-case';
 
 @Controller()
 export class MeasureController {
@@ -25,6 +29,15 @@ export class MeasureController {
 
   @Inject(GetMeasuresByCustumerCodeUseCase)
   private readonly getMeasuresByCustumerUseCase: GetMeasuresByCustumerCodeUseCase;
+
+  @Inject(GetAllMeasureUseCase)
+  private readonly getAllMeasureUseCase: GetAllMeasureUseCase;
+
+  @Inject(DeleteMeasureUseCase)
+  private readonly deleteMeasureUseCase: DeleteMeasureUseCase;
+
+  @Inject(GetTemporaryLinkUseCase)
+  private readonly getTemporaryLinkUseCase: GetTemporaryLinkUseCase;
 
   @Post('upload')
   async uploadMeasure(
@@ -56,5 +69,21 @@ export class MeasureController {
       custumer_code,
       measure_type,
     );
+  }
+
+  @Get('list')
+  async getAllMeasure() {
+    return await this.getAllMeasureUseCase.execute();
+  }
+
+  @Delete('delete/:id')
+  async deleteMeasure(@Param('id') measure_uuid: string) {
+    await this.deleteMeasureUseCase.execute(measure_uuid);
+  }
+
+  @Get('image/:id')
+  findOne(@Param('id') link_uuid: string) {
+    const imageLink = this.getTemporaryLinkUseCase.execute(link_uuid);
+    return imageLink;
   }
 }

@@ -10,8 +10,6 @@ import generateImageURL from 'src/resource/utils/generateImageURL';
 
 @Injectable()
 export class UploadImageMeasureUseCase {
-  TempLinks = {};
-
   @Inject('IMeasureRepository')
   private readonly measureRepository: IMeasureRepository;
 
@@ -88,13 +86,12 @@ export class UploadImageMeasureUseCase {
     return Number(geminiMeasureResponse);
   }
 
-  // pensar em como fazer de uma forma melhor
   private tempLinkGenerator(image: string) {
     const tempId = uuidGenerator();
-    this.TempLinks[tempId] = {
+    this.measureRepository.addTempLink(tempId, {
       path: generateImageURL(image),
       expiration_time: Date.now() + 3600000,
-    };
+    });
 
     const tempImageLink = `http://localhost:3000/image/${tempId}`;
 

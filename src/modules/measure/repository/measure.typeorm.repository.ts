@@ -7,6 +7,8 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MeasureTypeOrmRepository implements IMeasureRepository {
+  private TempLinks = {};
+
   constructor(
     @InjectRepository(MeasureEntity)
     private readonly measureRepository: Repository<MeasureEntity>,
@@ -41,5 +43,26 @@ export class MeasureTypeOrmRepository implements IMeasureRepository {
 
   async updateMeasure(measure: MeasureEntity): Promise<void> {
     await this.measureRepository.save(measure);
+  }
+
+  async findAllMeasure(): Promise<MeasureEntity[]> {
+    return await this.measureRepository.find();
+  }
+
+  async deleteMeasure(measure_uuid: string) {
+    await this.measureRepository.delete(measure_uuid);
+  }
+
+  // Métodos para recuperar links temporários
+  findTempLinkById(link_uuid: string) {
+    return this.TempLinks[link_uuid];
+  }
+
+  addTempLink(link_uuid: string, link: any) {
+    this.TempLinks[link_uuid] = link;
+  }
+
+  removeTempLink(link_uuid: string) {
+    delete this.TempLinks[`${link_uuid}`];
   }
 }

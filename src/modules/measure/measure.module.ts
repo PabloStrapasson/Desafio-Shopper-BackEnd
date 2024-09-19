@@ -6,6 +6,9 @@ import { MeasureTypeOrmRepository } from './repository/measure.typeorm.repositor
 import { UploadImageMeasureUseCase } from '../use-cases/upload-image-measure.use-case';
 import { ConfirmMeasureUseCase } from '../use-cases/confirm-measure.use-case';
 import { GetMeasuresByCustumerCodeUseCase } from '../use-cases/get-measures-by-custumer.use-case';
+import { GetAllMeasureUseCase } from '../use-cases/get-all-measures.use-case';
+import { DeleteMeasureUseCase } from '../use-cases/delete-measure.use-case';
+import { GetTemporaryLinkUseCase } from '../use-cases/get-temporary-link.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MeasureEntity])],
@@ -14,6 +17,9 @@ import { GetMeasuresByCustumerCodeUseCase } from '../use-cases/get-measures-by-c
     UploadImageMeasureUseCase,
     ConfirmMeasureUseCase,
     GetMeasuresByCustumerCodeUseCase,
+    GetAllMeasureUseCase,
+    DeleteMeasureUseCase,
+    GetTemporaryLinkUseCase,
     MeasureTypeOrmRepository,
     {
       provide: 'IMeasureRepository',
