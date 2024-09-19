@@ -5,20 +5,26 @@ import {
   Body,
   Param,
   Query,
-  BadRequestException,
   Patch,
-  Res,
+  Inject,
 } from '@nestjs/common';
-import { MeasureService } from './measure.service';
-import { EnumMeasureTypes } from '../../enum/measureTypesEnum';
 import { UploadMeasureDto } from './dto/upload-measure.dto';
 import { ConfirmMeasureDto } from './dto/confirm-measure.dto';
 import { CreateDatePipe } from 'src/resource/pipes/createDate.pipe';
-import { Response } from 'express';
+import { UploadImageMeasureUseCase } from '../use-cases/upload-image-measure.use-case';
+import { ConfirmMeasureUseCase } from '../use-cases/confirm-measure.use-case';
+import { GetMeasuresByCustumerCodeUseCase } from '../use-cases/get-measures-by-custumer.use-case';
 
 @Controller()
 export class MeasureController {
-  constructor(private readonly measureService: MeasureService) {}
+  @Inject(UploadImageMeasureUseCase)
+  private readonly uploadMeasureUseCase: UploadImageMeasureUseCase;
+
+  @Inject(ConfirmMeasureUseCase)
+  private readonly confirmMeasureUseCase: ConfirmMeasureUseCase;
+
+  @Inject(GetMeasuresByCustumerCodeUseCase)
+  private readonly getMeasuresByCustumerUseCase: GetMeasuresByCustumerCodeUseCase;
 
   @Post('upload')
   async uploadMeasure(
@@ -26,7 +32,7 @@ export class MeasureController {
     @Body() { measure_datetime, ...uploadMeasureDto }: UploadMeasureDto,
     @Body('measure_datetime', CreateDatePipe) measureDate: Date,
   ) {
-    const newMeasure = await this.measureService.uploadMeasure({
+    const newMeasure = await this.uploadMeasureUseCase.execute({
       ...uploadMeasureDto,
       measure_datetime: measureDate,
     });
@@ -36,7 +42,7 @@ export class MeasureController {
 
   @Patch('confirm')
   async confirmMeasure(@Body() confirmMeasureDto: ConfirmMeasureDto) {
-    await this.measureService.confirmMeasure(confirmMeasureDto);
+    await this.confirmMeasureUseCase.execute(confirmMeasureDto);
 
     return { success: true };
   }
@@ -46,42 +52,9 @@ export class MeasureController {
     @Param('custumer_code') custumer_code: string,
     @Query('measure_type') measure_type: string,
   ) {
-    if (measure_type != null) {
-      measure_type = measure_type.toUpperCase();
-
-      if (EnumMeasureTypes[measure_type] === undefined) {
-        throw new BadRequestException({
-          message: 'Tipo de medição não permitida',
-        });
-      }
-
-      const allMeasures =
-        await this.measureService.findMeasuresByCustumerCodeAndType(
-          custumer_code,
-          measure_type,
-        );
-
-      return {
-        custumer_code: custumer_code,
-        measures: allMeasures,
-      };
-    }
-
-    const allMeasures =
-      await this.measureService.findMeasuresByCustumerCode(custumer_code);
-
-    return {
-      custumer_code: custumer_code,
-      measures: allMeasures,
-    };
-  }
-
-  @Get('image/:id')
-  getMeasureImage(@Param('id') id: string, @Res() res: Response) {
-    const imageLink = this.measureService.getImageLink(id);
-    const response = `
-      <img src=${imageLink} alt="measure_image"/>
-    `;
-    res.send(response);
+    return await this.getMeasuresByCustumerUseCase.execute(
+      custumer_code,
+      measure_type,
+    );
   }
 }
