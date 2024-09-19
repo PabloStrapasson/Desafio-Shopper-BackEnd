@@ -39,4 +39,21 @@ export class MeasureEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deleted_at: string;
+
+  constructor(
+    id: string,
+    custumer_code: string,
+    datetime: Date,
+    type: EnumMeasureTypes,
+    value: number,
+    image_url: string,
+  ) {
+    this.measure_uuid = id;
+    this.custumer_code = custumer_code;
+    this.measure_datetime = datetime;
+    this.measure_type = type;
+    this.measure_value = value;
+    this.has_confirmed = false;
+    this.image_url = image_url;
+  }
 }
