@@ -1,12 +1,17 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { IMeasureRepository } from '../measure/repository/measure.interface.repository';
-import { UploadMeasureDto } from '../measure/dto/upload-measure.dto';
-import { MeasureEntity } from '../measure/measure.entity';
-import { EnumMeasureTypes } from 'src/enum/measureTypesEnum';
-import uuidGenerator from 'src/resource/utils/uuidGenerator';
-import getGeminiModel from 'src/config/gemini.config';
-import getBase64ImageType from 'src/resource/utils/getbase64ImageType';
-import generateImageURL from 'src/resource/utils/generateImageURL';
+import {
+  BadRequestException,
+  ConflictException,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
+import { IMeasureRepository } from '../../measure/repository/measure.interface.repository';
+import { UploadMeasureDto } from '../../measure/dto/upload-measure.dto';
+import { MeasureEntity } from '../../measure/measure.entity';
+import { EnumMeasureTypes } from '../../../enum/measureTypesEnum';
+import uuidGenerator from '../../../resource/utils/uuidGenerator';
+import getGeminiModel from '../../../config/gemini.config';
+import getBase64ImageType from '../../../resource/utils/getbase64ImageType';
+import generateImageURL from '../../../resource/utils/generateImageURL';
 
 @Injectable()
 export class UploadImageMeasureUseCase {
@@ -82,6 +87,12 @@ export class UploadImageMeasureUseCase {
 
     const geminiMeasureResponse =
       geminiObjectResponse.response.candidates[0].content.parts[0].text;
+
+    if (Number.isNaN(Number(geminiMeasureResponse))) {
+      throw new BadRequestException({
+        error_description: 'Não foi possível identificar a leitura de consumo',
+      });
+    }
 
     return Number(geminiMeasureResponse);
   }

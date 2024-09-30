@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { IMeasureRepository } from '../measure/repository/measure.interface.repository';
+import { IMeasureRepository } from '../../measure/repository/measure.interface.repository';
 
 @Injectable()
 export class GetTemporaryLinkUseCase {

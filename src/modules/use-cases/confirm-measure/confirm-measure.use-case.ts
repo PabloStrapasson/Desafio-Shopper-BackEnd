@@ -1,6 +1,11 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { IMeasureRepository } from '../measure/repository/measure.interface.repository';
-import { ConfirmMeasureDto } from '../measure/dto/confirm-measure.dto';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { IMeasureRepository } from '../../measure/repository/measure.interface.repository';
+import { ConfirmMeasureDto } from '../../measure/dto/confirm-measure.dto';
 
 @Injectable()
 export class ConfirmMeasureUseCase {
@@ -11,6 +16,13 @@ export class ConfirmMeasureUseCase {
     const measure = await this.measureRepository.findMeasureById(
       confirmMeasureDto.measure_uuid,
     );
+
+    if (measure === undefined) {
+      throw new NotFoundException({
+        error_code: 'MEASURE_NOT_FOUND',
+        error_description: 'Leitura não encontrada',
+      });
+    }
 
     if (measure.has_confirmed) {
       throw new ConflictException({

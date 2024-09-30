@@ -11,13 +11,13 @@ import {
 } from '@nestjs/common';
 import { UploadMeasureDto } from './dto/upload-measure.dto';
 import { ConfirmMeasureDto } from './dto/confirm-measure.dto';
-import { CreateDatePipe } from 'src/resource/pipes/createDate.pipe';
-import { UploadImageMeasureUseCase } from '../use-cases/upload-image-measure.use-case';
-import { ConfirmMeasureUseCase } from '../use-cases/confirm-measure.use-case';
-import { GetMeasuresByCustumerCodeUseCase } from '../use-cases/get-measures-by-custumer.use-case';
-import { GetAllMeasureUseCase } from '../use-cases/get-all-measures.use-case';
-import { DeleteMeasureUseCase } from '../use-cases/delete-measure.use-case';
-import { GetTemporaryLinkUseCase } from '../use-cases/get-temporary-link.use-case';
+import { CreateDatePipe } from '../../resource/pipes/createDate.pipe';
+import { UploadImageMeasureUseCase } from '../use-cases/upload-image-measure/upload-image-measure.use-case';
+import { ConfirmMeasureUseCase } from '../use-cases/confirm-measure/confirm-measure.use-case';
+import { GetMeasuresByCustumerCodeUseCase } from '../use-cases/get-measures-by-custumer/get-measures-by-custumer.use-case';
+import { GetAllMeasureUseCase } from '../use-cases/get-all-measures/get-all-measures.use-case';
+import { DeleteMeasureUseCase } from '../use-cases/delete-measure/delete-measure.use-case';
+import { GetTemporaryLinkUseCase } from '../use-cases/get-temporary-link/get-temporary-link.use-case';
 
 @Controller()
 export class MeasureController {

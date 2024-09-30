@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { MeasureModule } from './modules/measure/measure.module';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostgresConfigService } from './config/postgres.config.service';
+import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
+import { MeasureModule } from './modules/measure/measure.module';
+import { PostgresConfigService } from './config/postgres.config.service';
 import { BadRequestFilter } from './resource/filters/badRequest.filter';
 
 @Module({

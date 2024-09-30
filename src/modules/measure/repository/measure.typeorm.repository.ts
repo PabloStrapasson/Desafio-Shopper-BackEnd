@@ -1,9 +1,9 @@
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { MeasureEntity } from '../measure.entity';
 import { IMeasureRepository } from './measure.interface.repository';
-import { Repository } from 'typeorm';
-import { EnumMeasureTypes } from 'src/enum/measureTypesEnum';
-import { Injectable } from '@nestjs/common';
+import { EnumMeasureTypes } from '../../../enum/measureTypesEnum';
 
 @Injectable()
 export class MeasureTypeOrmRepository implements IMeasureRepository {

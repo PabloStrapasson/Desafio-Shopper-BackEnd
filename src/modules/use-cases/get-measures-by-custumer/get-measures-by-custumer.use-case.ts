@@ -4,17 +4,17 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { IMeasureRepository } from '../measure/repository/measure.interface.repository';
-import { EnumMeasureTypes } from 'src/enum/measureTypesEnum';
-import { ListMeasureDto } from '../measure/dto/list-measure.dto';
-import { MeasureEntity } from '../measure/measure.entity';
+import { IMeasureRepository } from '../../measure/repository/measure.interface.repository';
+import { ListMeasureDto } from '../../measure/dto/list-measure.dto';
+import { MeasureEntity } from '../../measure/measure.entity';
+import { EnumMeasureTypes } from '../../../enum/measureTypesEnum';
 
 @Injectable()
 export class GetMeasuresByCustumerCodeUseCase {
   @Inject('IMeasureRepository')
   private readonly measureRepository: IMeasureRepository;
 
-  async execute(custumer_code: string, measure_type: string) {
+  async execute(custumer_code: string, measure_type?: string) {
     if (measure_type != null) {
       measure_type = measure_type.toUpperCase();
 
