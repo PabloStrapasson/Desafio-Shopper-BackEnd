@@ -24,7 +24,12 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+An API developed with [Nest](https://github.com/nestjs/nest) framework with Google Gemini integration for determine the gas & water consuption based on consumption meters images. To develop this application was used the PostgreSQL for database, Swagger for documentation, Jest for the tests, Docker for application containerization and Clean Architecture concepts.
+
+## Docker
+```bash
+$ docker compose up
+```
 
 ## Installation
 
@@ -57,16 +62,6 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
