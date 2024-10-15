@@ -1,4 +1,10 @@
-import { IsBase64, IsDateString, IsEnum, IsNotEmpty } from 'class-validator';
+import {
+  IsBase64,
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+} from 'class-validator';
 import { EnumMeasureTypes } from '../../../enum/measureTypesEnum';
 
 export class UploadMeasureDto {
@@ -7,6 +13,7 @@ export class UploadMeasureDto {
   image: string;
 
   @IsNotEmpty()
+  @IsString()
   custumer_code: string;
 
   @IsNotEmpty()

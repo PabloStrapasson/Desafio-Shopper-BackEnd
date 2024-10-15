@@ -4,11 +4,11 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_HOST: postgres
+      POSTGRES_HOST: 'postgres'
       POSTGRES_PORT: 5432
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: db_shopper
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'root'
+      POSTGRES_DB: 'db_shopper'
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
@@ -17,12 +17,19 @@ services:
     restart: unless-stopped
 
   backend:
+    environment:
+      POSTGRES_HOST: 'postgres'
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'root'
+      POSTGRES_DB: 'db_shopper'
     build: .
     command: npm run start:prod
     ports: 
       - "3000:3000"
     depends_on:
       - postgres
+      - swagger
 
   swagger:
     image: swaggerapi/swagger-ui
